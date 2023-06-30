@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"
+        integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <div class="calendar-body">
+        <div class="container" id="container">
+            <div class="calendar-head">
+                <i class="fa fa-angle-left" id="back-button"></i>
+
+                <p class="month-and-year"><span id="month">Month</span> <span id="year">Year</span></p>
+
+                <i class="fa fa-angle-right" id="next-button"></i>
+            </div>
+
+            <div class="week-and-month-container">
+
+                <div class="week-days" id="week-days"></div>
+
+                <div class="month-date" id="month-date">
+                    <div class="month-row-1" id="month-row-1">row1</div>
+                    <div class="month-row-2" id="month-row-2">row2</div>
+                    <div class="month-row-3" id="month-row-3">row3</div>
+                    <div class="month-row-4" id="month-row-4">row4</div>
+                    <div class="month-row-5" id="month-row-5">row5</div>
+                    <div class="month-row-6" id="month-row-6">row6</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="dropdown-list">
+            <select name="month-dropdown" id="month-dropdown"></select>
+            <select name="year-dropdown" id="year-dropdown"></select>
+
+            <div class="current-date-btn" id="current-date-btn">
+                <button>Current Date</button>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <script src="./script.js"></script>
+</body>
+
+</html>

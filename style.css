@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;1,400&display=swap');
+
+:root{
+    --calendar-head-bg-color:#738b7e;
+    --text-color:#ffffff;
+    --week-and-month-container-bg-color:#9abba8;
+    --dropdown-list-bg-colro:#c2d7cb;
+}
+
+*{
+    box-sizing: border-box;
+    font-family: 'Montserrat';
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    align-items: center;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+}
+
+.calendar-body{
+    box-shadow: 0 0 20px 0 #c7c5c5;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container{
+    
+}
+
+.calendar-head{
+    align-items: center;
+    background-color: var(--calendar-head-bg-color);
+    border-radius: 20px 0 0 0;
+    color: var(--text-color);
+    display: flex;
+    justify-content: space-around;
+    padding: 80px 100px;
+}
+
+.calendar-head i{
+    font-size: 35px;
+    padding: 20px 25px; 
+}
+
+.calendar-head i:hover{
+    background-color: #8ba195;
+    border-radius: 50%;
+}
+
+.month-and-year{
+    padding: 0px 70px;
+}
+
+.month-and-year #month{
+    font-size: 80px;
+    font-weight: 800;
+}
+
+.month-and-year #year{
+    font-size: 30px;
+}
+
+.month-and-year span{
+    display: block;
+    text-align: center;
+}
+
+.week-and-month-container{
+    background-color: var(--week-and-month-container-bg-color);
+    border-radius: 0 0 0 20px;
+    padding: 50px 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.week-days{
+    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(7, 70px);
+    /* gap: 10px; */
+    justify-items: center;
+}
+
+.week-days div{
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.month-date .month-row-1, .month-row-2, .month-row-3, .month-row-4, .month-row-5, .month-row-6{
+    /* align-items: center; */
+    display: grid;
+    grid-template-columns: repeat(7, 70px);
+    /* gap: 10px; */
+    /* justify-items: center; */
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 10px;
+}
+
+.dropdown-list{
+    background-color: var(--dropdown-list-bg-colro);
+    border-radius: 0 20px 20px 0;
+    padding: 20px 10px;
+}
+
+.dropdown-list select{
+    background-color: #c2d7cb;
+    border: none;
+    outline: none;
+    padding: 10px 10px;
+    font-size: 18px;
+}
+
+.current-date-btn{
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.current-date-btn button{
+    background-color: #738b7e;
+    border: none;
+    border-radius: 20px;
+    color:#ffffff;
+    font-weight: 700;
+    font-size: 17px;
+    padding: 15px 25px;
+}
+
+.inactive-date{
+    color: #c2d7cb;
+}
+
+.grid-item{
+    padding: 10px 20px;
+    /* width: 100%; */
+    justify-self: center;
+    align-self: center;
+}
+
+.month-date{
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.current-date{
+    background-color: #ffffff;
+    border-radius: 10px;
+    color: black;
+}
+
+.sunday{
+    /* color: #02763c; */
+    color: #748a7e;
+}
+
+.date-range{
+    background-color: #ffffff;
+    color: black;
+    width: 50px;
+    text-align: center;
+}
