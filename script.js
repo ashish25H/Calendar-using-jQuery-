@@ -18,12 +18,6 @@ let incrementDecrementFlag = 0; //when you click on right arrow button it will  
 let selectedMonth = new Date().getMonth();
 let selectedYear = new Date().getFullYear();
 let checkFunctionCall = false;
-let firstRowStr = '';
-let secondRowStr = '';
-let thiredRowStr = '';
-let fourthRowStr = '';
-let fifthRowStr = '';
-let sixthRowStr = '';
 
 const addWeekDays = () => {         //adding week days like sun,mon,tue,wed etc.
     let str = '';
@@ -52,56 +46,24 @@ let setYearsInDropdown = () => {        //set year in year drop down
 }
 setYearsInDropdown();
 
-const addDateString = (i, str) => {         //adding dates in month rows
-    if (i >= 1 && i <= 7) {
-        firstRowStr += str;
-        monthRow1.html(firstRowStr);
-    } else if (i > 7 && i <= 14) {
-        secondRowStr += str;
-        monthRow2.html(secondRowStr);
-    } else if (i > 14 && i <= 21) {
-        thiredRowStr += str;
-        monthRow3.html(thiredRowStr);
-    } else if (i > 21 && i <= 28) {
-        fourthRowStr += str;
-        monthRow4.html(fourthRowStr);
-    } else if (i > 28 && i <= 35) {
-        fifthRowStr += str;
-        monthRow5.html(fifthRowStr);
-    } else if (i > 35 && i <= 42) {
-        sixthRowStr += str;
-        monthRow6.html(sixthRowStr);
-    }
-}
-
-function addSunday(dateText, month, year, i) {
-    let str = '';
+function addSunday(dateText, month, year) {
     if (dateText === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()) {
-        str += `<div class='current-date month-date sunday grid-item' id=${dateText}>${dateText}</div>`;
+        return `<div class='current-date month-date sunday grid-item' id=${dateText}>${dateText}</div>`;
     } else {
-        str += `<div class='month-date sunday grid-item' id=${dateText}>${dateText}</div>`;
+        return `<div class='month-date sunday grid-item' id=${dateText}>${dateText}</div>`;
     }
-    addDateString(i, str);
-    // date.innerHTML = monthString;
 }
 
-function addInactiveDate(dateText, i) {
-    let str = '';
-    str += `<div class='inactive-date grid-item'>${dateText}</div>`;
-    // date.innerHTML = monthString;
-
-    addDateString(i, str);
+function addInactiveDate(dateText) {
+    return `<div class='inactive-date grid-item'>${dateText}</div>`;
 }
 
-function addDate(dateText, month, year, i) {
-    let str = '';
+function addDate(dateText, month, year) {
     if (dateText === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()) {
-        str += `<div class='month-date grid-item current-date' id=${dateText}>${dateText}</div>`;
+        return `<div class='month-date grid-item current-date' id=${dateText}>${dateText}</div>`;
     } else {
-        str += `<div class='date-item month-date grid-item' id=${dateText}>${dateText}</div>`;
+        return `<div class='date-item month-date grid-item' id=${dateText}>${dateText}</div>`;
     }
-
-    addDateString(i, str);
 }
 
 function addDateRangeClass(startDate, endDate) {
@@ -146,13 +108,13 @@ function addDateRangeFeature() {
                 if (prevStart !== startDate) {
                     // console.log(`prevv and start is not equal`);
                     removeDateRangeClass(prevStart, prevEnd);
-                    console.log(`it called`);
+                    // console.log(`it called`);
                 }
                 prevStart = startDate;
                 prevEnd = endDate;
             }
 
-            console.log(`prevstr - ${prevStart} prevend - ${prevEnd} Start - ${startDate} endDate - ${endDate}`);
+            // console.log(`prevstr - ${prevStart} prevend - ${prevEnd} Start - ${startDate} endDate - ${endDate}`);
 
             if (checkFunctionCall) {
                 startDate = '';
@@ -169,14 +131,6 @@ function addDateRangeFeature() {
 }
 
 function createCalender(selectedMonth = null, selectedYear = null) {
-    firstRowStr = '';
-    secondRowStr = '';
-    thiredRowStr = '';
-    fourthRowStr = '';
-    fifthRowStr = '';
-    sixthRowStr = '';
-    startDate = '';
-    endDate = '';
     let dt = new Date();
 
     if (selectedMonth !== null && selectedYear !== null) {
@@ -190,7 +144,7 @@ function createCalender(selectedMonth = null, selectedYear = null) {
     monthDropdown.val(monthArray[dt.getMonth()]);
     yearDropdown.val(dt.getFullYear());
 
-    console.log(incrementDecrementFlag);
+    // console.log(incrementDecrementFlag);
     if (incrementDecrementFlag !== 0) {
         dt.setMonth(new Date().getMonth() + incrementDecrementFlag);
     }
@@ -208,19 +162,26 @@ function createCalender(selectedMonth = null, selectedYear = null) {
 
     let x = 1;
     let sunday = 1;
-    for (let i = 1; i <= 42; i++) {
-        if (i <= firstDayOfMonth) {
-            let lastDayOfPreviousMonth = new Date(year, month, 0).getDate('', month, year);
-            addInactiveDate((lastDayOfPreviousMonth - firstDayOfMonth) + i, i);
-        } else if (i > numberOfDaysInMonth + firstDayOfMonth) {
-            addInactiveDate(x, i);
-            x++;
-        } else if (i - sunday === 7 || i === 1) {
-            addSunday(i - firstDayOfMonth, month, year, i);
-            sunday = i;
-        } else {
-            addDate(i - firstDayOfMonth, month, year, i);
+    for (let i = 1; i <= 6; i++) {
+        let rowElement = $(`#month-row-${i}`);
+        let rowContent = '';
+        // console.log(rowContent);
+        for (let j = (i*7 - 6); j <= i * 7; j++) {
+            if (j <= firstDayOfMonth) {
+                let lastDayOfPreviousMonth = new Date(year, month, 0).getDate('', month, year);
+               rowContent += addInactiveDate((lastDayOfPreviousMonth -        firstDayOfMonth) + j);
+            } else if (j > numberOfDaysInMonth + firstDayOfMonth) {
+                rowContent += addInactiveDate(x);
+                x++;
+            } else if (j - sunday === 7 || j === 1) {
+                rowContent += addSunday(j - firstDayOfMonth, month, year);
+                sunday = j;
+            } else {
+                rowContent += addDate(j - firstDayOfMonth, month, year);
+            }
         }
+
+        rowElement.html(rowContent);
     }
 
     addDateRangeFeature();
