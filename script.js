@@ -1,15 +1,14 @@
-const jq = $.noConflict();
-const weekDays = jq('#week-days');
-const monthDropdown = jq('#month-dropdown');
-const yearDropdown = jq('#year-dropdown');
-const monthText = jq('#month');
-const yearText = jq('#year');
-const monthRow1 = jq('#month-row-1');
-const monthRow2 = jq('#month-row-2');
-const monthRow3 = jq('#month-row-3');
-const monthRow4 = jq('#month-row-4');
-const monthRow5 = jq('#month-row-5');
-const monthRow6 = jq('#month-row-6');
+const weekDays = $('#week-days');
+const monthDropdown = $('#month-dropdown');
+const yearDropdown = $('#year-dropdown');
+const monthText = $('#month');
+const yearText = $('#year');
+const monthRow1 = $('#month-row-1');
+const monthRow2 = $('#month-row-2');
+const monthRow3 = $('#month-row-3');
+const monthRow4 = $('#month-row-4');
+const monthRow5 = $('#month-row-5');
+const monthRow6 = $('#month-row-6');
 const weekDaysArray = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const monthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -110,7 +109,7 @@ function addDateRangeClass(startDate, endDate) {
     let min = +startDate < +endDate ? +startDate : +endDate;
     let max = +startDate > +endDate ? +startDate : +endDate;
     for (let i = min; i <= max; i++) {
-        const item = jq(`#${i}`);
+        const item = $(`#${i}`);
         item.removeClass('date-item current-date');
         item.addClass('date-range');
     }
@@ -120,7 +119,7 @@ function removeDateRangeClass(startDate, endDate) {
     let min = +startDate < +endDate ? +startDate : +endDate;
     let max = +startDate > +endDate ? +startDate : +endDate;
     for (let i = min; i <= max; i++) {
-        const item = jq(`#${i}`);
+        const item = $(`#${i}`);
         item.removeClass('date-range');
     }
 }
@@ -130,13 +129,13 @@ function addDateRangeFeature() {
     let prevStart = 0;
     let prevEnd = 0;
 
-    jq('.month-date').each(function (element) {
-        jq(this).click(function (event) {
+    $('.month-date').each(function (element) {
+        $(this).click(function (event) {
 
             if (startDate === '' && endDate === '') {
-                startDate = jq(this).attr('id');
+                startDate = $(this).attr('id');
             } else if (endDate === '') {
-                endDate = jq(this).attr('id');
+                endDate = $(this).attr('id');
             }
 
             if (startDate !== '' && endDate !== '') {
@@ -228,20 +227,20 @@ function createCalender(selectedMonth = null, selectedYear = null) {
 }
 
 function initButtons() {
-    jq('#next-button').click(function (event) {
+    $('#next-button').click(function (event) {
         event.stopPropagation();
         incrementDecrementFlag++;
         createCalender();
     });
 
-    jq('#back-button').click(function (event) {
+    $('#back-button').click(function (event) {
         event.stopPropagation();
         incrementDecrementFlag--;
         createCalender();
     });
 }
 
-jq('#current-date-btn').click(function (event) {
+$('#current-date-btn').click(function (event) {
     event.stopPropagation();
     incrementDecrementFlag = 0;
     selectedMonth = new Date().getMonth();
@@ -257,14 +256,14 @@ function selectingYearFunction(selectedYear) {
     createCalender(selectedMonth, selectedYear);
 }
 
-jq('#month-dropdown').change(function (event) {
+$('#month-dropdown').change(function (event) {
     event.stopPropagation();
     selectedMonth = monthDropdown.val();
     incrementDecrementFlag = 0;
     selectingMonthFunction(selectedMonth);
 });
 
-jq('#year-dropdown').change(function (event) {
+$('#year-dropdown').change(function (event) {
     event.stopPropagation();
     selectedYear = yearDropdown.val();
     selectingYearFunction(selectedYear);
