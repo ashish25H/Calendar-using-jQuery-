@@ -37,7 +37,7 @@ setMonthsInDropdown();
 
 let setYearsInDropdown = () => {        //set years in year drop down
     let str = '';
-    for (let i = 2010; i <= 2040; i++) {
+    for (let i = MIN_YEAR; i <= MAX_YEAR; i++) {
         str += `<option value=${i}>${i}</option>`;
     }
     yearDropdown.html(str);
@@ -142,6 +142,7 @@ function createCalendar(selectedMonth = null, selectedYear = null) {
 
     // let count = 1;
     let sunday = count = 1;
+    let dateText;
     let lastDayOfPreviousMonth = new Date(year, month, 0).getDate('', month, year);
     for (let i = 1; i <= ROWS; i++) {
         let rowElement = $(`#month-row-${i}`);
@@ -158,14 +159,14 @@ function createCalendar(selectedMonth = null, selectedYear = null) {
                 count++;
             } else if (j - sunday === 7 || j === 1) {
                 //adding sunday here
-                let dateText = j - firstDayOfMonth;
+                dateText = j - firstDayOfMonth;
                 rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} current-date month-date sunday' id=${dateText}>${dateText}${endString}` : `${startString} month-date sunday' id=${dateText}> ${dateText} ${endString}`;
 
                 sunday = j;
 
             } else {
                 //add normal dates in calendar 
-                let dateText = j - firstDayOfMonth;
+                dateText = j - firstDayOfMonth;
                 rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} month-date current-date' id=${dateText}> ${dateText} ${endString}` : `${startString} month-date' id=${dateText}> ${dateText} ${endString}`;
             }
         }
