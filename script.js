@@ -8,6 +8,30 @@ const MIN_YEAR = 2010;
 const MAX_YEAR = 2040;
 const weekDaysArray = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const monthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const birthdays = [
+    { name: "John Doe", day: 15, month: 5, year: 1990 },
+    { name: "Jane Smith", day: 22, month: 9, year: 1985 },
+    { name: "David Johnson", day: 10, month: 3, year: 1998 },
+    { name: "Emily Brown", day: 7, month: 6, year: 1992 },
+    { name: "Michael Davis", day: 14, month: 2, year: 1995 },
+    { name: "Sarah Wilson", day: 30, month: 12, year: 1999 },
+    { name: "Daniel Thompson", day: 1, month: 9, year: 1997 },
+    { name: "Olivia Harris", day: 18, month: 12, year: 1987 },
+    { name: "Matthew Martin", day: 25, month: 7, year: 1993 },
+    { name: "Sophia Anderson", day: 2, month: 4, year: 1989 },
+    { name: "Jacob Clark", day: 9, month: 8, year: 1994 },
+    { name: "Emma Lee", day: 28, month: 3, year: 2000 },
+    { name: "Christopher Green", day: 12, month: 10, year: 1986 },
+    { name: "Ava Taylor", day: 5, month: 1, year: 1991 },
+    { name: "James Hill", day: 19, month: 6, year: 1996 },
+    { name: "Mia Walker", day: 24, month: 9, year: 1998 },
+    { name: "Liam Turner", day: 1, month: 12, year: 1992 },
+    { name: "Grace Carter", day: 17, month: 2, year: 1997 },
+    { name: "Benjamin Cooper", day: 8, month: 7, year: 1994 },
+    { name: "Chloe King", day: 11, month: 4, year: 1999 }
+];
+
+
 
 let startDate = '';
 let endDate = '';
@@ -45,9 +69,6 @@ let setYearsInDropdown = () => {        //set years in year drop down
 setYearsInDropdown();
 
 function addDateRangeClass(startDate, endDate) {
-    console.log(`startDate - ${startDate}`);
-    console.log(`EndDatre - ${endDate}`);
-    console.log(`in addDaterange function`);
     removeExectingSelection = true;
     let min = +startDate < +endDate ? +startDate : +endDate;
     let max = +startDate > +endDate ? +startDate : +endDate;
@@ -112,6 +133,7 @@ function createCalendar(selectedMonth = null, selectedYear = null) {
     let currentDate = new Date();
     const startString = `<div class='grid-item `;
     const endString = `</div>`;
+    let elementDataArr = [];
 
     if (selectedMonth !== null && selectedYear !== null) {
         if (isNaN(selectedMonth)) {
@@ -147,7 +169,7 @@ function createCalendar(selectedMonth = null, selectedYear = null) {
     for (let i = 1; i <= ROWS; i++) {
         let rowElement = $(`#month-row-${i}`);
         let rowContent = '';
-    
+
         for (let j = (i * 7 - ROWS); j <= i * 7; j++) {
             if (j <= firstDayOfMonth) {
                 //add inactive dates
@@ -160,19 +182,65 @@ function createCalendar(selectedMonth = null, selectedYear = null) {
             } else if (j - sunday === 7 || j === 1) {
                 //adding sunday here
                 dateText = j - firstDayOfMonth;
-                rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} current-date month-date sunday' id=${dateText}>${dateText}${endString}` : `${startString} month-date sunday' id=${dateText}> ${dateText} ${endString}`;
+                const hasDesiredDateOfBirth = birthdays.some((person) => person.day === dateText && person.month === month + 1);
+
+                if (hasDesiredDateOfBirth) {
+                    birthdays.forEach((element, index) => {
+                        // let check = new Date(element.dateOfBirth);
+                        if (element.month === month + 1 && element.day === dateText) {
+                            rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} current-date month-date sunday birthday' id=${dateText}>${dateText}${endString}` : `${startString} month-date sunday birthday' id=${dateText}> ${dateText} ${endString}`;
+
+                            let elementDate = {
+                                elementId: dateText,
+                                index: index,
+                            }
+                            elementDataArr.push(elementDate);
+                        }
+                    });
+                } else {
+                    rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} current-date month-date sunday' id=${dateText}>${dateText}${endString}` : `${startString} month-date sunday' id=${dateText}> ${dateText} ${endString}`;
+                }
 
                 sunday = j;
 
             } else {
                 //add normal dates in calendar 
                 dateText = j - firstDayOfMonth;
-                rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} month-date current-date' id=${dateText}> ${dateText} ${endString}` : `${startString} month-date' id=${dateText}> ${dateText} ${endString}`;
+                const hasDesiredDateOfBirth = birthdays.some((person) => person.day === dateText && person.month === month + 1);
+
+                if (hasDesiredDateOfBirth) {
+                    birthdays.forEach((element, index) => {
+                        if (element.month === month + 1 && element.day === dateText) {
+                                rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} month-date current-date birthday' id=${dateText}> ${dateText} ${endString}` : `${startString} month-date birthday' id=${dateText}> ${dateText} ${endString}`;
+
+                            let elementDate = {
+                                elementId: dateText,
+                                index: index,
+                            }
+                            elementDataArr.push(elementDate);
+                        }
+                    });
+                } else {
+                    rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} month-date current-date' id=${dateText}> ${dateText} ${endString}` : `${startString} month-date' id=${dateText}> ${dateText} ${endString}`;
+                }
             }
         }
 
         rowElement.html(rowContent);
     }
+
+    let icon = `<i class="fa fa-cake-candles icon"></i>`;
+    elementDataArr.map((element) => {
+        let hoverBox = `<div class='hoverDateBox' id=${element.elementId + 'hover'}>Name : ${birthdays[element.index].name} <br> DOB : ${birthdays[element.index].day}-${birthdays[element.index].month}-${birthdays[element.index].year}</div>`;
+        
+        $('#' + element.elementId).append(icon, hoverBox);
+
+        $('.hoverDateBox').hide();
+
+        $('#' + element.elementId).hover(function () {
+            $('#' + element.elementId + 'hover').toggle();
+        })
+    });
 
     addDateRangeFeature();
 }
@@ -216,7 +284,7 @@ function handleEvents() {
     //         removeDateRangeClass(startDate, endDate);
     //     }
     // });
-    
+
 }
 
 createCalendar();

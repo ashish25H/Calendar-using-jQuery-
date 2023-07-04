@@ -166,3 +166,27 @@ body{
     width: 50px;
     text-align: center;
 }
+
+.birthday{
+    /* background-color: blue; */
+    cursor: pointer; 
+    position: relative;
+}
+
+.icon{
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    /* bottom: 20px; */
+}
+
+.hoverDateBox{
+    background-color: #748a7e;
+    bottom: 50px;
+    color: #ffffff;
+    position: absolute;
+    font-size: 16px;
+    padding: 10px;
+    width: 190px;
+}
+
