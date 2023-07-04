@@ -133,10 +133,6 @@ body{
     padding: 15px 25px;
 }
 
-.inactive-date{
-    color: #c2d7cb;
-}
-
 .grid-item{
     padding: 10px 20px;
     /* width: 100%; */
@@ -147,6 +143,10 @@ body{
 .month-date{
     color: #ffffff;
     font-weight: 700;
+}
+
+.inactive-date{
+    color: #c2d7cb;
 }
 
 .current-date{

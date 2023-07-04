@@ -131,7 +131,7 @@ function addDateRangeFeature() {
 function createCalendar(selectedMonth = null, selectedYear = null) {
     let dt = new Date();
     let currentDate = new Date();
-    const startString = `<div class='grid-item `;
+    const startString = `<div class='grid-item month-date`;
     const endString = `</div>`;
     let elementDataArr = [];
     let hasDesiredDateOfBirth;
@@ -187,9 +187,8 @@ function createCalendar(selectedMonth = null, selectedYear = null) {
 
                 if (hasDesiredDateOfBirth) {
                     birthdays.forEach((element, index) => {
-                        // let check = new Date(element.dateOfBirth);
                         if (element.month === month + 1 && element.day === dateText) {
-                            rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} current-date month-date sunday birthday' id=${dateText}>${dateText}${endString}` : `${startString} month-date sunday birthday' id=${dateText}> ${dateText} ${endString}`;
+                            rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} current-date sunday birthday' id=${dateText}>${dateText}${endString}` : `${startString} sunday birthday' id=${dateText}> ${dateText} ${endString}`;
 
                             let elementDate = {
                                 elementId: dateText,
@@ -199,7 +198,7 @@ function createCalendar(selectedMonth = null, selectedYear = null) {
                         }
                     });
                 } else {
-                    rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} current-date month-date sunday' id=${dateText}>${dateText}${endString}` : `${startString} month-date sunday' id=${dateText}> ${dateText} ${endString}`;
+                    rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} current-date sunday' id=${dateText}>${dateText}${endString}` : `${startString} sunday' id=${dateText}> ${dateText} ${endString}`;
                 }
 
                 sunday = j;
@@ -211,7 +210,7 @@ function createCalendar(selectedMonth = null, selectedYear = null) {
                 if (hasDesiredDateOfBirth) {
                     birthdays.forEach((element, index) => {
                         if (element.month === month + 1 && element.day === dateText) {
-                                rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} month-date current-date birthday' id=${dateText}> ${dateText} ${endString}` : `${startString} month-date birthday' id=${dateText}> ${dateText} ${endString}`;
+                                rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} current-date birthday' id=${dateText}> ${dateText} ${endString}` : `${startString} birthday' id=${dateText}> ${dateText} ${endString}`;
 
                             let elementDate = {
                                 elementId: dateText,
@@ -221,7 +220,7 @@ function createCalendar(selectedMonth = null, selectedYear = null) {
                         }
                     });
                 } else {
-                    rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} month-date current-date' id=${dateText}> ${dateText} ${endString}` : `${startString} month-date' id=${dateText}> ${dateText} ${endString}`;
+                    rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} current-date' id=${dateText}> ${dateText} ${endString}` : `${startString} ' id=${dateText}> ${dateText} ${endString}`;
                 }
             }
         }
