@@ -134,6 +134,7 @@ function createCalendar(selectedMonth = null, selectedYear = null) {
     const startString = `<div class='grid-item `;
     const endString = `</div>`;
     let elementDataArr = [];
+    let hasDesiredDateOfBirth;
 
     if (selectedMonth !== null && selectedYear !== null) {
         if (isNaN(selectedMonth)) {
@@ -171,10 +172,11 @@ function createCalendar(selectedMonth = null, selectedYear = null) {
         let rowContent = '';
 
         for (let j = (i * 7 - ROWS); j <= i * 7; j++) {
+            hasDesiredDateOfBirth = birthdays.some((item) => item.day === j - firstDayOfMonth && item.month === month + 1);
+
             if (j <= firstDayOfMonth) {
                 //add inactive dates
                 rowContent += `${startString} inactive-date'> ${(lastDayOfPreviousMonth - firstDayOfMonth) + j} ${endString}`;
-
             } else if (j > numberOfDaysInMonth + firstDayOfMonth) {
                 //add inactive dates
                 rowContent += `${startString} inactive-date'> ${count} ${endString}`;
@@ -182,7 +184,6 @@ function createCalendar(selectedMonth = null, selectedYear = null) {
             } else if (j - sunday === 7 || j === 1) {
                 //adding sunday here
                 dateText = j - firstDayOfMonth;
-                const hasDesiredDateOfBirth = birthdays.some((person) => person.day === dateText && person.month === month + 1);
 
                 if (hasDesiredDateOfBirth) {
                     birthdays.forEach((element, index) => {
@@ -206,7 +207,6 @@ function createCalendar(selectedMonth = null, selectedYear = null) {
             } else {
                 //add normal dates in calendar 
                 dateText = j - firstDayOfMonth;
-                const hasDesiredDateOfBirth = birthdays.some((person) => person.day === dateText && person.month === month + 1);
 
                 if (hasDesiredDateOfBirth) {
                     birthdays.forEach((element, index) => {
