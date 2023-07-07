@@ -276,13 +276,12 @@ function handleEvents() {
         createCalendar(selectedMonth, selectedYear);
     });
 
-    // $('body').click(function(event, startDate, endDate){
-    //     if(event.target.classList.contains('body-class')){
-    //         console.log(`body event called`);
-    //         console.log(`${startDate} ${endDate} in body event`);
-    //         removeDateRangeClass(startDate, endDate);
-    //     }
-    // });
+    $('body').click(function(event){
+        if(event.target.classList.contains('body-class')){
+            // console.log(`body event called`);
+            location.reload();
+        }
+    });
 
 }
 
