@@ -180,7 +180,8 @@ body{
     /* bottom: 20px; */
 }
 
-.hoverDateBox{
+.hoverDataBox{
+    /* display: none; */
     background-color: #748a7e;
     bottom: 50px;
     color: #ffffff;
