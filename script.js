@@ -30,9 +30,10 @@ const birthdays = [
     { name: "Benjamin Cooper", day: 8, month: 7, year: 1994 },
     { name: "Chloe King", day: 11, month: 4, year: 1999 }
 ];
+const startString = `<div class='grid-item month-date`;
+const endString = `</div>`;
 
-
-
+let elementDataArr = [];
 let startDate = '';
 let endDate = '';
 let flag = 0; //when you click on right arrow button it will   increase and it will decrease when you click on left arrow button.
@@ -96,17 +97,17 @@ function addDateRangeFeature() {
     $('.month-date').each(function (element) {
         $(this).click(function (event) {
 
-            if (startDate === '' && endDate === '') {
+            if (!(startDate) && !(endDate)) {
                 startDate = $(this).attr('id');
-            } else if (endDate === '') {
+            } else if (!(endDate)) {
                 endDate = $(this).attr('id');
             }
 
-            if (startDate !== '' && endDate !== '') {
+            if (startDate && endDate) {
                 addDateRangeClass(startDate, endDate);
             }
 
-            if (prevStart === 0 || prevEnd === '' || prevStart !== startDate) {
+            if (prevStart === 0 || !(prevEnd) || prevStart !== startDate) {
                 if (prevStart !== startDate) {
                     removeDateRangeClass(prevStart, prevEnd);
                 }
@@ -128,20 +129,34 @@ function addDateRangeFeature() {
 
 }
 
+function addBirthdayClass(desiredDOB, sundayFlag, dateText, isCurrentDay, month) {
+    if (desiredDOB) {
+        let str = '';
+        birthdays.forEach((element) => {
+            if (element.month === (month + 1) && element.day === dateText) {
+                console.log(`${element.month} ${month + 1} ${element.day} ${dateText}`);
+                if (sundayFlag) {
+                    str += isCurrentDay ? `${startString} current-date sunday birthday' id=${dateText} data-name=${element.name} data-dob=${element.day}-${element.month}-${element.year}>${dateText}${endString}` : `${startString} sunday birthday' id=${dateText} data-name=${element.name} data-dob=${element.day}-${element.month}-${element.year}> ${dateText} ${endString}`;
+                } else {
+                    str += isCurrentDay ? `${startString} current-date birthday' id=${dateText} data-name=${element.name} data-dob=${element.day}-${element.month}-${element.year}> ${dateText} ${endString}` : `${startString} birthday' id=${dateText} data-name=${element.name} data-dob=${element.day}-${element.month}-${element.year}> ${dateText} ${endString}`;
+                }
+            }
+        });
+        return str;
+    } else if (sundayFlag) {
+        return isCurrentDay ? `${startString} current-date sunday' id=${dateText}>${dateText}${endString}` : `${startString} sunday' id=${dateText}> ${dateText} ${endString}`;
+    } else {
+        return isCurrentDay ? `${startString} current-date' id=${dateText}> ${dateText} ${endString}` : `${startString} ' id=${dateText}> ${dateText} ${endString}`;
+    }
+}
+
 function createCalendar(selectedMonth = null, selectedYear = null) {
     let dt = new Date();
     let currentDate = new Date();
-    const startString = `<div class='grid-item month-date`;
-    const endString = `</div>`;
-    let elementDataArr = [];
-    let hasDesiredDateOfBirth;
+    let desiredDOB;
 
-    if (selectedMonth !== null && selectedYear !== null) {
-        if (isNaN(selectedMonth)) {
-            dt = new Date(`${selectedMonth} 01, ${selectedYear}`);
-        } else {
-            dt = new Date(`${monthArray[selectedMonth]} 01, ${selectedYear}`);
-        }
+    if (selectedMonth && selectedYear) {
+        isNaN(selectedMonth) ? dt = new Date(`${selectedMonth} 01, ${selectedYear}`) : dt = new Date(`${monthArray[selectedMonth]} 01, ${selectedYear}`);
     }
 
     monthDropdown.val(monthArray[dt.getMonth()]);
@@ -172,7 +187,9 @@ function createCalendar(selectedMonth = null, selectedYear = null) {
         let rowContent = '';
 
         for (let j = (i * 7 - ROWS); j <= i * 7; j++) {
-            hasDesiredDateOfBirth = birthdays.some((item) => item.day === j - firstDayOfMonth && item.month === month + 1);
+            dateText = j - firstDayOfMonth;
+            desiredDOB = birthdays.some((item) => item.day === j - firstDayOfMonth && item.month === month + 1);
+            let isCurrentDay = dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear();
 
             if (j <= firstDayOfMonth) {
                 //add inactive dates
@@ -183,64 +200,40 @@ function createCalendar(selectedMonth = null, selectedYear = null) {
                 count++;
             } else if (j - sunday === 7 || j === 1) {
                 //adding sunday here
-                dateText = j - firstDayOfMonth;
-
-                if (hasDesiredDateOfBirth) {
-                    birthdays.forEach((element, index) => {
-                        if (element.month === month + 1 && element.day === dateText) {
-                            rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} current-date sunday birthday' id=${dateText}>${dateText}${endString}` : `${startString} sunday birthday' id=${dateText}> ${dateText} ${endString}`;
-
-                            let elementDate = {
-                                elementId: dateText,
-                                index: index,
-                            }
-                            elementDataArr.push(elementDate);
-                        }
-                    });
-                } else {
-                    rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} current-date sunday' id=${dateText}>${dateText}${endString}` : `${startString} sunday' id=${dateText}> ${dateText} ${endString}`;
-                }
-
+                rowContent += addBirthdayClass(desiredDOB, true, dateText, isCurrentDay, month);
                 sunday = j;
 
             } else {
                 //add normal dates in calendar 
-                dateText = j - firstDayOfMonth;
-
-                if (hasDesiredDateOfBirth) {
-                    birthdays.forEach((element, index) => {
-                        if (element.month === month + 1 && element.day === dateText) {
-                                rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} current-date birthday' id=${dateText}> ${dateText} ${endString}` : `${startString} birthday' id=${dateText}> ${dateText} ${endString}`;
-
-                            let elementDate = {
-                                elementId: dateText,
-                                index: index,
-                            }
-                            elementDataArr.push(elementDate);
-                        }
-                    });
-                } else {
-                    rowContent += (dateText === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) ? `${startString} current-date' id=${dateText}> ${dateText} ${endString}` : `${startString} ' id=${dateText}> ${dateText} ${endString}`;
-                }
+                rowContent += addBirthdayClass(desiredDOB, false, dateText, isCurrentDay, month);
+                console.log(`rowContent in normal days -- ${rowContent}`);
             }
         }
-
         rowElement.html(rowContent);
     }
-
     let icon = `<i class="fa fa-cake-candles icon"></i>`;
-    elementDataArr.map((element) => {
-        let hoverBox = `<div class='hoverDateBox' id=${element.elementId + 'hover'}>Name : ${birthdays[element.index].name} <br> DOB : ${birthdays[element.index].day}-${birthdays[element.index].month}-${birthdays[element.index].year}</div>`;
-        
-        $('#' + element.elementId).append(icon, hoverBox);
+    $('.birthday').append(icon);
 
-        $('.hoverDateBox').hide();
 
-        $('#' + element.elementId).hover(function () {
-            $('#' + element.elementId + 'hover').toggle();
+    $('.birthday').hover(function () {
+        let name = $(this).data('name');
+        let dob = $(this).data('dob');
+        let dataBox = $(this).find('.hoverDataBox');
+
+        if (dataBox.length === 0) {
+            dataBox = `<div class='hoverDataBox'>Name : ${name} <br> DOB : ${dob}</div>`;
+            $(this).append(dataBox);
+        }
+        console.log(name);
+        console.log(dob);
+        dataBox.fadeIn();
+    }, function () {
+        let dataBox = $(this).find('.hoverDataBox');
+
+        dataBox.fadeOut(function () {
+            $(this).remove();
         })
-    });
-
+    })
     addDateRangeFeature();
 }
 
@@ -276,9 +269,8 @@ function handleEvents() {
         createCalendar(selectedMonth, selectedYear);
     });
 
-    $('body').click(function(event){
-        if(event.target.classList.contains('body-class')){
-            // console.log(`body event called`);
+    $('body').click(function (event) {
+        if (event.target.classList.contains('body-class')) {
             location.reload();
         }
     });
